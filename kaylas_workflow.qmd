@@ -1,0 +1,74 @@
+---
+title: "kaylas_workflow"
+format: html
+editor: visual
+---
+
+## Packages
+
+```{r}
+library(readr)
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+library(plotly)
+```
+
+## Data Import
+
+```{r}
+claims <- read_csv("claims.csv")
+```
+
+## Data Cleaning
+
+```{r}
+claims_clean <- claims %>%
+  filter(DEPARTMENTID >= 6L & DEPARTMENTID <= 20L)
+```
+
+```{r}
+claims_clean2 <- claims %>%
+  mutate(
+    date = as.POSIXct(SERVICEDATE), # Ensure date is in datetime format
+    year_month = floor_date(SERVICEDATE, "month") # Truncate to the start of the month
+  ) %>%
+  group_by(year_month) %>%
+  summarize(num_claims = n())
+```
+
+## Data Visualization
+
+```{r}
+dv1 <- ggplot(claims_clean) +
+  aes(x = DEPARTMENTID) +
+  geom_histogram(bins = 30L, fill = "#112446") +
+  theme_minimal()
+ggplotly(dv1)
+```
+
+```{r}
+dv2 <- ggplot(claims_clean2, aes(x = year_month, y = num_claims)) +
+  geom_line() +
+  labs(
+    title = "Number of Claims per Month",
+    x = "Month",
+    y = "Number of Claims"
+  ) +
+  theme_minimal()
+
+ggplotly(dv2)
+```
+
+```{r}
+dv3 <- ggplot(claims_clean2, aes(x = year_month, y = num_claims)) +
+  geom_line() +
+  labs(
+    title = "Number of Claims per Month",
+    x = "Month",
+    y = "Number of Claims"
+  ) +
+  theme_minimal() +
+  scale_x_datetime(limits = c(as.POSIXct("2010-01-01"), NA))
+ggplotly(dv3)
+```

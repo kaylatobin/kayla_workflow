@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>kaylas_workflow</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="kaylas_workflow_files/libs/clipboard/clipboard.min.js"></script>
+<script src="kaylas_workflow_files/libs/quarto-html/quarto.js"></script>
+<script src="kaylas_workflow_files/libs/quarto-html/popper.min.js"></script>
+<script src="kaylas_workflow_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="kaylas_workflow_files/libs/quarto-html/anchor.min.js"></script>
+<link href="kaylas_workflow_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="kaylas_workflow_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="kaylas_workflow_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="kaylas_workflow_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="kaylas_workflow_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="kaylas_workflow_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="kaylas_workflow_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="kaylas_workflow_files/libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="kaylas_workflow_files/libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="kaylas_workflow_files/libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="kaylas_workflow_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="kaylas_workflow_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="kaylas_workflow_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="kaylas_workflow_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">kaylas_workflow</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="packages" class="level2">
+<h2 class="anchored" data-anchor-id="packages">Packages</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'plotly'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    last_plot</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    filter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:graphics':
+
+    layout</code></pre>
+</div>
+</div>
+</section>
+<section id="data-import" class="level2">
+<h2 class="anchored" data-anchor-id="data-import">Data Import</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>claims <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"claims.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
+e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 12869 Columns: 31
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (10): Id, PATIENTID, PROVIDERID, PRIMARYPATIENTINSURANCEID, SECONDARYPA...
+dbl  (14): DEPARTMENTID, PATIENTDEPARTMENTID, DIAGNOSIS1, DIAGNOSIS2, DIAGNO...
+lgl   (2): DIAGNOSIS8, REFERRINGPROVIDERID
+dttm  (5): CURRENTILLNESSDATE, SERVICEDATE, LASTBILLEDDATE1, LASTBILLEDDATE2...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+</section>
+<section id="data-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>claims_clean <span class="ot">&lt;-</span> claims <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(DEPARTMENTID <span class="sc">&gt;=</span> <span class="dv">6</span>L <span class="sc">&amp;</span> DEPARTMENTID <span class="sc">&lt;=</span> <span class="dv">20</span>L)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>claims_clean2 <span class="ot">&lt;-</span> claims <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">as.POSIXct</span>(SERVICEDATE), <span class="co"># Ensure date is in datetime format</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_month =</span> <span class="fu">floor_date</span>(SERVICEDATE, <span class="st">"month"</span>) <span class="co"># Truncate to the start of the month</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_month) <span class="sc">%&gt;%</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">num_claims =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="data-visualization">Data Visualization</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dv1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(claims_clean) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> DEPARTMENTID) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>L, <span class="at">fill =</span> <span class="st">"#112446"</span>) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(dv1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-63850f509975fe096be3" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-63850f509975fe096be3">{"x":{"data":[{"orientation":"v","width":[0.4827586206896548,0.4827586206896548,0.4827586206896548,0.4827586206896548,0.4827586206896548,0.4827586206896548,0.4827586206896548,0.4827586206896548,0.48275862068965836,0.4827586206896548,0.4827586206896548,0.4827586206896548,0.4827586206896548,0.4827586206896548,0.48275862068965836,0.4827586206896548,0.48275862068965836,0.4827586206896548,0.4827586206896548,0.4827586206896548,0.4827586206896548,0.4827586206896548,0.48275862068965125,0.48275862068965125,0.48275862068965125,0.48275862068965836,0.48275862068965125,0.48275862068965125,0.48275862068965125,0.48275862068965125],"base":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"x":[5.7931034482758621,6.2758620689655178,6.7586206896551726,7.2413793103448274,7.7241379310344831,8.2068965517241388,8.6896551724137936,9.1724137931034484,9.6551724137931032,10.13793103448276,10.620689655172415,11.103448275862069,11.586206896551724,12.068965517241379,12.551724137931036,13.03448275862069,13.517241379310345,14.000000000000002,14.482758620689657,14.965517241379311,15.448275862068966,15.931034482758621,16.413793103448278,16.896551724137929,17.379310344827587,17.862068965517242,18.344827586206897,18.827586206896555,19.310344827586206,19.793103448275865],"y":[11,0,41,0,0,12,0,19,0,311,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2351],"text":["count:   11<br />DEPARTMENTID:  5.793103","count:    0<br />DEPARTMENTID:  6.275862","count:   41<br />DEPARTMENTID:  6.758621","count:    0<br />DEPARTMENTID:  7.241379","count:    0<br />DEPARTMENTID:  7.724138","count:   12<br />DEPARTMENTID:  8.206897","count:    0<br />DEPARTMENTID:  8.689655","count:   19<br />DEPARTMENTID:  9.172414","count:    0<br />DEPARTMENTID:  9.655172","count:  311<br />DEPARTMENTID: 10.137931","count:    0<br />DEPARTMENTID: 10.620690","count:    0<br />DEPARTMENTID: 11.103448","count:    0<br />DEPARTMENTID: 11.586207","count:    0<br />DEPARTMENTID: 12.068966","count:    0<br />DEPARTMENTID: 12.551724","count:    0<br />DEPARTMENTID: 13.034483","count:    0<br />DEPARTMENTID: 13.517241","count:    0<br />DEPARTMENTID: 14.000000","count:    0<br />DEPARTMENTID: 14.482759","count:    0<br />DEPARTMENTID: 14.965517","count:    0<br />DEPARTMENTID: 15.448276","count:    0<br />DEPARTMENTID: 15.931034","count:    0<br />DEPARTMENTID: 16.413793","count:    0<br />DEPARTMENTID: 16.896552","count:    0<br />DEPARTMENTID: 17.379310","count:    0<br />DEPARTMENTID: 17.862069","count:    0<br />DEPARTMENTID: 18.344828","count:    0<br />DEPARTMENTID: 18.827586","count:    0<br />DEPARTMENTID: 19.310345","count: 2351<br />DEPARTMENTID: 19.793103"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(17,36,70,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":40.182648401826491,"l":48.949771689497723},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[4.8275862068965516,20.758620689655174],"tickmode":"array","ticktext":["5","10","15","20"],"tickvals":[5,10,15,20],"categoryorder":"array","categoryarray":["5","10","15","20"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"DEPARTMENTID","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-117.55000000000001,2468.5500000000002],"tickmode":"array","ticktext":["0","500","1000","1500","2000"],"tickvals":[1.4210854715202004e-14,499.99999999999994,1000,1500,2000.0000000000002],"categoryorder":"array","categoryarray":["0","500","1000","1500","2000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"count","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"77d50ac971e":{"x":{},"type":"bar"}},"cur_data":"77d50ac971e","visdat":{"77d50ac971e":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dv2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(claims_clean2, <span class="fu">aes</span>(<span class="at">x =</span> year_month, <span class="at">y =</span> num_claims)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Number of Claims per Month"</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Month"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Claims"</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(dv2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-e38c6a27509ee6db3203" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-e38c6a27509ee6db3203">{"x":{"data":[{"x":[-1506988800,-1501718400,-1496448000,-1491177600,-1483228800,-1475452800,-1470182400,-1467590400,-1459641600,-1443830400,-1441238400,-1057276800,-996796800,-933638400,-894153600,-883612800,-862617600,-825811200,-804816000,-791596800,-644371200,-615513600,-599616000,-520819200,-497145600,-489283200,-483926400,-463017600,-426124800,-405129600,-402451200,-347155200,-331516800,-307756800,-281318400,-260409600,-249782400,-242092800,-205286400,-197337600,-176256000,-173664000,-163036800,-142128000,-139449600,-113184000,-102643200,-86918400,-50025600,-44755200,-39484800,-26438400,-23760000,-21168000,-15897600,-13219200,-10540800,-5270400,-2678400,2678400,7776000,10368000,13046400,15638400,18316800,20995200,28857600,34214400,36633600,44582400,47174400,49852800,55123200,60393600,63072000,65750400,68256000,70934400,73526400,76204800,78796800,81475200,84153600,86745600,89424000,92016000,94694400,97372800,99792000,102470400,105062400,107740800,110332800,113011200,115689600,118281600,120960000,123552000,126230400,128908800,131328000,134006400,136598400,139276800,141868800,144547200,147225600,149817600,152496000,155088000,157766400,160444800,162864000,165542400,168134400,170812800,173404800,176083200,178761600,181353600,184032000,186624000,189302400,191980800,194486400,197164800,199756800,202435200,205027200,207705600,210384000,212976000,215654400,218246400,220924800,223603200,226022400,228700800,231292800,233971200,236563200,239241600,241920000,244512000,247190400,255139200,257558400,260236800,262828800,268099200,270777600,273456000,276048000,283996800,286675200,289094400,291772800,294364800,297043200,302313600,304992000,310262400,312854400,328665600,333936000,341884800,347155200,352252800,354931200,360201600,365472000,370742400,373420800,381369600,383788800,389059200,391737600,394329600,397008000,399686400,402278400,404956800,410227200,412905600,415324800,420595200,425865600,428544000,431222400,433814400,436492800,441763200,444441600,446947200,449625600,452217600,457488000,460166400,462844800,465436800,468115200,470707200,473385600,478483200,483753600,486432000,489024000,491702400,494380800,499651200,504921600,507600000,510019200,512697600,515289600,517968000,520560000,523238400,525916800,528508800,531187200,533779200,536457600,539136000,541555200,544233600,546825600,549504000,552096000,557452800,560044800,562723200,565315200,567993600,570672000,573177600,575856000,578448000,581126400,583718400,586396800,589075200,591667200,594345600,596937600,599616000,602294400,604713600,607392000,609984000,612662400,615254400,617932800,620611200,623203200,625881600,628473600,631152000,633830400,636249600,638928000,641520000,644198400,646790400,649468800,652147200,654739200,657417600,660009600,662688000,665366400,667785600,670464000,673056000,675734400,678326400,681004800,683683200,686275200,688953600,691545600,694224000,707356800,709948800,712627200,717897600,723168000,725846400,728524800,730944000,733622400,738892800,741484800,744163200,746841600,749433600,752112000,754704000,757382400,760060800,762480000,765158400,775699200,778377600,786240000,788918400,791596800,794016000,796694400,799286400,801964800,804556800,807235200,809913600,815184000,817776000,820454400,823132800,825638400,830908800,833587200,836179200,841536000,844128000,852076800,854755200,857174400,862444800,867715200,880934400,883612800,886291200,888710400,891388800,893980800,896659200,899251200,901929600,904608000,912470400,915148800,917827200,930787200,936144000,938736000,941414400,949363200,951868800,954547200,957139200,965088000,967766400,970358400,975628800,978307200,980985600,983404800,988675200,991353600,993945600,996624000,999302400,1001894400,1004572800,1007164800,1009843200,1012521600,1014940800,1017619200,1022889600,1028160000,1033430400,1041379200,1044057600,1046476800,1059696000,1062374400,1064966400,1067644800,1072915200,1080777600,1086048000,1091318400,1093996800,1101859200,1104537600,1107216000,1109635200,1112313600,1114905600,1117584000,1120176000,1122854400,1125532800,1128124800,1130803200,1133395200,1136073600,1138752000,1141171200,1143849600,1146441600,1149120000,1151712000,1154390400,1157068800,1159660800,1162339200,1164931200,1167609600,1170288000,1172707200,1175385600,1177977600,1180656000,1183248000,1185926400,1188604800,1191196800,1193875200,1196467200,1199145600,1201824000,1204329600,1207008000,1209600000,1212278400,1214870400,1217548800,1220227200,1222819200,1225497600,1228089600,1230768000,1233446400,1235865600,1238544000,1241136000,1246406400,1251763200,1254355200,1257033600,1259625600,1262304000,1264982400,1267401600,1270080000,1272672000,1275350400,1277942400,1280620800,1283299200,1285891200,1291161600,1293840000,1296518400,1298937600,1301616000,1304208000,1306886400,1309478400,1312156800,1314835200,1317427200,1320105600,1322697600,1325376000,1328054400,1330560000,1333238400,1335830400,1338508800,1341100800,1343779200,1346457600,1349049600,1351728000,1354320000,1356998400,1359676800,1362096000,1364774400,1367366400,1370044800,1372636800,1375315200,1377993600,1380585600,1383264000,1385856000,1388534400,1391212800,1393632000,1396310400,1398902400,1401580800,1404172800,1406851200,1409529600,1412121600,1414800000,1417392000,1420070400,1422748800,1425168000,1427846400,1430438400,1433116800,1435708800,1438387200,1441065600,1443657600,1446336000,1448928000,1451606400,1454284800,1456790400,1459468800,1462060800,1464739200,1467331200,1470009600,1472688000,1475280000,1477958400,1480550400,1483228800,1485907200,1488326400,1491004800,1493596800,1496275200,1498867200,1501545600,1504224000,1506816000,1509494400,1512086400,1514764800,1517443200,1519862400,1522540800,1525132800,1527811200,1530403200,1533081600,1535760000,1538352000,1541030400,1543622400,1546300800,1548979200,1551398400,1554076800,1556668800,1559347200,1561939200,1564617600,1567296000,1569888000,1572566400,1575158400,1577836800,1580515200,1583020800,1585699200,1588291200,1590969600,1593561600,1596240000,1598918400,1601510400,1604188800,1606780800,1609459200,1612137600,1614556800,1617235200,1619827200,1622505600,1625097600,1627776000,1630454400,1633046400,1635724800,1638316800,1640995200,1643673600,1646092800,1648771200,1651363200,1654041600,1656633600,1659312000,1661990400,1664582400,1667260800,1669852800,1672531200,1675209600,1677628800,1680307200,1682899200,1685577600,1688169600,1690848000,1693526400,1696118400,1698796800,1701388800,1704067200,1706745600,1709251200,1711929600,1714521600,1717200000,1719792000,1722470400,1725148800],"y":[1,1,1,1,3,1,2,2,1,2,1,1,1,4,1,1,2,1,1,1,1,2,1,1,1,1,2,2,1,2,1,1,1,1,1,2,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,4,4,3,5,1,5,4,4,1,2,5,1,5,10,2,4,1,5,1,1,6,6,1,6,13,20,19,22,21,22,21,21,19,16,13,19,21,22,19,24,21,21,21,14,21,15,15,21,21,21,17,16,21,16,18,14,17,11,15,17,13,17,12,21,21,17,17,19,15,14,15,15,21,21,20,15,18,21,17,17,13,17,15,14,18,21,21,16,16,9,4,1,1,7,1,1,1,1,2,1,1,4,10,1,1,1,6,5,1,2,6,4,2,4,3,8,4,10,2,2,5,3,1,5,4,9,2,4,1,6,1,1,2,7,8,12,1,3,2,1,2,4,4,12,4,6,6,5,5,1,4,4,6,6,1,5,5,4,5,18,1,13,9,19,11,5,15,23,17,12,31,22,67,21,16,9,7,23,9,12,16,5,7,23,13,12,12,4,8,19,15,23,22,7,11,22,13,3,15,13,7,19,16,14,14,4,10,12,17,10,6,11,13,16,18,16,37,5,25,16,10,11,15,33,3,15,5,2,1,1,1,1,2,1,1,1,2,4,1,2,5,1,1,1,3,1,2,2,1,1,1,2,1,2,1,2,1,1,1,1,1,4,4,1,1,2,1,6,4,1,1,1,1,1,1,4,1,1,8,2,2,2,1,4,1,1,1,4,1,2,3,1,1,3,2,1,1,1,2,4,2,3,2,1,1,2,3,3,3,7,5,1,7,1,5,3,1,2,2,2,4,3,1,1,3,1,3,3,1,2,1,1,1,1,15,3,3,1,8,5,5,5,2,6,9,7,11,8,2,10,8,3,2,6,7,6,7,8,10,14,11,5,1,7,1,2,2,4,8,3,5,31,2,12,3,2,1,2,1,17,8,1,9,14,3,4,9,12,4,3,12,10,7,11,9,9,9,1,7,1,9,6,11,14,12,17,9,1,6,10,7,12,2,21,4,6,19,10,2,13,1,4,11,7,21,17,16,8,9,26,26,27,23,22,35,36,29,36,60,65,49,53,39,43,45,63,69,67,81,88,69,106,95,94,87,62,59,47,54,56,60,38,42,74,70,84,86,89,83,36,52,52,46,57,47,68,91,64,52,70,58,39,60,55,65,77,73,65,87,91,54,44,44,23,32,53,54,56,41,83,78,82,118,80,70,64,85,97,86,71,66,80,100,129,95,79,78,64,67,85,106,158,65,100,100,118,93,101,91,60,79,65,68,76,76,85,72,103,61,65,85,68,56,53,56,65,44,50,94,117,85,84,61,78,64,48,90,75,65,52,102,107,60,63,63,15],"text":["year_month: 1922-04-01<br />num_claims:   1","year_month: 1922-06-01<br />num_claims:   1","year_month: 1922-08-01<br />num_claims:   1","year_month: 1922-10-01<br />num_claims:   1","year_month: 1923-01-01<br />num_claims:   3","year_month: 1923-04-01<br />num_claims:   1","year_month: 1923-06-01<br />num_claims:   2","year_month: 1923-07-01<br />num_claims:   2","year_month: 1923-10-01<br />num_claims:   1","year_month: 1924-04-01<br />num_claims:   2","year_month: 1924-05-01<br />num_claims:   1","year_month: 1936-07-01<br />num_claims:   1","year_month: 1938-06-01<br />num_claims:   1","year_month: 1940-06-01<br />num_claims:   4","year_month: 1941-09-01<br />num_claims:   1","year_month: 1942-01-01<br />num_claims:   1","year_month: 1942-09-01<br />num_claims:   2","year_month: 1943-11-01<br />num_claims:   1","year_month: 1944-07-01<br />num_claims:   1","year_month: 1944-12-01<br />num_claims:   1","year_month: 1949-08-01<br />num_claims:   1","year_month: 1950-07-01<br />num_claims:   2","year_month: 1951-01-01<br />num_claims:   1","year_month: 1953-07-01<br />num_claims:   1","year_month: 1954-04-01<br />num_claims:   1","year_month: 1954-07-01<br />num_claims:   1","year_month: 1954-09-01<br />num_claims:   2","year_month: 1955-05-01<br />num_claims:   2","year_month: 1956-07-01<br />num_claims:   1","year_month: 1957-03-01<br />num_claims:   2","year_month: 1957-04-01<br />num_claims:   1","year_month: 1959-01-01<br />num_claims:   1","year_month: 1959-07-01<br />num_claims:   1","year_month: 1960-04-01<br />num_claims:   1","year_month: 1961-02-01<br />num_claims:   1","year_month: 1961-10-01<br />num_claims:   2","year_month: 1962-02-01<br />num_claims:   1","year_month: 1962-05-01<br />num_claims:   1","year_month: 1963-07-01<br />num_claims:   1","year_month: 1963-10-01<br />num_claims:   1","year_month: 1964-06-01<br />num_claims:   1","year_month: 1964-07-01<br />num_claims:   2","year_month: 1964-11-01<br />num_claims:   1","year_month: 1965-07-01<br />num_claims:   1","year_month: 1965-08-01<br />num_claims:   1","year_month: 1966-06-01<br />num_claims:   1","year_month: 1966-10-01<br />num_claims:   1","year_month: 1967-04-01<br />num_claims:   1","year_month: 1968-06-01<br />num_claims:   1","year_month: 1968-08-01<br />num_claims:   1","year_month: 1968-10-01<br />num_claims:   1","year_month: 1969-03-01<br />num_claims:   1","year_month: 1969-04-01<br />num_claims:   1","year_month: 1969-05-01<br />num_claims:   4","year_month: 1969-07-01<br />num_claims:   4","year_month: 1969-08-01<br />num_claims:   3","year_month: 1969-09-01<br />num_claims:   5","year_month: 1969-11-01<br />num_claims:   1","year_month: 1969-12-01<br />num_claims:   5","year_month: 1970-02-01<br />num_claims:   4","year_month: 1970-04-01<br />num_claims:   4","year_month: 1970-05-01<br />num_claims:   1","year_month: 1970-06-01<br />num_claims:   2","year_month: 1970-07-01<br />num_claims:   5","year_month: 1970-08-01<br />num_claims:   1","year_month: 1970-09-01<br />num_claims:   5","year_month: 1970-12-01<br />num_claims:  10","year_month: 1971-02-01<br />num_claims:   2","year_month: 1971-03-01<br />num_claims:   4","year_month: 1971-06-01<br />num_claims:   1","year_month: 1971-07-01<br />num_claims:   5","year_month: 1971-08-01<br />num_claims:   1","year_month: 1971-10-01<br />num_claims:   1","year_month: 1971-12-01<br />num_claims:   6","year_month: 1972-01-01<br />num_claims:   6","year_month: 1972-02-01<br />num_claims:   1","year_month: 1972-03-01<br />num_claims:   6","year_month: 1972-04-01<br />num_claims:  13","year_month: 1972-05-01<br />num_claims:  20","year_month: 1972-06-01<br />num_claims:  19","year_month: 1972-07-01<br />num_claims:  22","year_month: 1972-08-01<br />num_claims:  21","year_month: 1972-09-01<br />num_claims:  22","year_month: 1972-10-01<br />num_claims:  21","year_month: 1972-11-01<br />num_claims:  21","year_month: 1972-12-01<br />num_claims:  19","year_month: 1973-01-01<br />num_claims:  16","year_month: 1973-02-01<br />num_claims:  13","year_month: 1973-03-01<br />num_claims:  19","year_month: 1973-04-01<br />num_claims:  21","year_month: 1973-05-01<br />num_claims:  22","year_month: 1973-06-01<br />num_claims:  19","year_month: 1973-07-01<br />num_claims:  24","year_month: 1973-08-01<br />num_claims:  21","year_month: 1973-09-01<br />num_claims:  21","year_month: 1973-10-01<br />num_claims:  21","year_month: 1973-11-01<br />num_claims:  14","year_month: 1973-12-01<br />num_claims:  21","year_month: 1974-01-01<br />num_claims:  15","year_month: 1974-02-01<br />num_claims:  15","year_month: 1974-03-01<br />num_claims:  21","year_month: 1974-04-01<br />num_claims:  21","year_month: 1974-05-01<br />num_claims:  21","year_month: 1974-06-01<br />num_claims:  17","year_month: 1974-07-01<br />num_claims:  16","year_month: 1974-08-01<br />num_claims:  21","year_month: 1974-09-01<br />num_claims:  16","year_month: 1974-10-01<br />num_claims:  18","year_month: 1974-11-01<br />num_claims:  14","year_month: 1974-12-01<br />num_claims:  17","year_month: 1975-01-01<br />num_claims:  11","year_month: 1975-02-01<br />num_claims:  15","year_month: 1975-03-01<br />num_claims:  17","year_month: 1975-04-01<br />num_claims:  13","year_month: 1975-05-01<br />num_claims:  17","year_month: 1975-06-01<br />num_claims:  12","year_month: 1975-07-01<br />num_claims:  21","year_month: 1975-08-01<br />num_claims:  21","year_month: 1975-09-01<br />num_claims:  17","year_month: 1975-10-01<br />num_claims:  17","year_month: 1975-11-01<br />num_claims:  19","year_month: 1975-12-01<br />num_claims:  15","year_month: 1976-01-01<br />num_claims:  14","year_month: 1976-02-01<br />num_claims:  15","year_month: 1976-03-01<br />num_claims:  15","year_month: 1976-04-01<br />num_claims:  21","year_month: 1976-05-01<br />num_claims:  21","year_month: 1976-06-01<br />num_claims:  20","year_month: 1976-07-01<br />num_claims:  15","year_month: 1976-08-01<br />num_claims:  18","year_month: 1976-09-01<br />num_claims:  21","year_month: 1976-10-01<br />num_claims:  17","year_month: 1976-11-01<br />num_claims:  17","year_month: 1976-12-01<br />num_claims:  13","year_month: 1977-01-01<br />num_claims:  17","year_month: 1977-02-01<br />num_claims:  15","year_month: 1977-03-01<br />num_claims:  14","year_month: 1977-04-01<br />num_claims:  18","year_month: 1977-05-01<br />num_claims:  21","year_month: 1977-06-01<br />num_claims:  21","year_month: 1977-07-01<br />num_claims:  16","year_month: 1977-08-01<br />num_claims:  16","year_month: 1977-09-01<br />num_claims:   9","year_month: 1977-10-01<br />num_claims:   4","year_month: 1977-11-01<br />num_claims:   1","year_month: 1978-02-01<br />num_claims:   1","year_month: 1978-03-01<br />num_claims:   7","year_month: 1978-04-01<br />num_claims:   1","year_month: 1978-05-01<br />num_claims:   1","year_month: 1978-07-01<br />num_claims:   1","year_month: 1978-08-01<br />num_claims:   1","year_month: 1978-09-01<br />num_claims:   2","year_month: 1978-10-01<br />num_claims:   1","year_month: 1979-01-01<br />num_claims:   1","year_month: 1979-02-01<br />num_claims:   4","year_month: 1979-03-01<br />num_claims:  10","year_month: 1979-04-01<br />num_claims:   1","year_month: 1979-05-01<br />num_claims:   1","year_month: 1979-06-01<br />num_claims:   1","year_month: 1979-08-01<br />num_claims:   6","year_month: 1979-09-01<br />num_claims:   5","year_month: 1979-11-01<br />num_claims:   1","year_month: 1979-12-01<br />num_claims:   2","year_month: 1980-06-01<br />num_claims:   6","year_month: 1980-08-01<br />num_claims:   4","year_month: 1980-11-01<br />num_claims:   2","year_month: 1981-01-01<br />num_claims:   4","year_month: 1981-03-01<br />num_claims:   3","year_month: 1981-04-01<br />num_claims:   8","year_month: 1981-06-01<br />num_claims:   4","year_month: 1981-08-01<br />num_claims:  10","year_month: 1981-10-01<br />num_claims:   2","year_month: 1981-11-01<br />num_claims:   2","year_month: 1982-02-01<br />num_claims:   5","year_month: 1982-03-01<br />num_claims:   3","year_month: 1982-05-01<br />num_claims:   1","year_month: 1982-06-01<br />num_claims:   5","year_month: 1982-07-01<br />num_claims:   4","year_month: 1982-08-01<br />num_claims:   9","year_month: 1982-09-01<br />num_claims:   2","year_month: 1982-10-01<br />num_claims:   4","year_month: 1982-11-01<br />num_claims:   1","year_month: 1983-01-01<br />num_claims:   6","year_month: 1983-02-01<br />num_claims:   1","year_month: 1983-03-01<br />num_claims:   1","year_month: 1983-05-01<br />num_claims:   2","year_month: 1983-07-01<br />num_claims:   7","year_month: 1983-08-01<br />num_claims:   8","year_month: 1983-09-01<br />num_claims:  12","year_month: 1983-10-01<br />num_claims:   1","year_month: 1983-11-01<br />num_claims:   3","year_month: 1984-01-01<br />num_claims:   2","year_month: 1984-02-01<br />num_claims:   1","year_month: 1984-03-01<br />num_claims:   2","year_month: 1984-04-01<br />num_claims:   4","year_month: 1984-05-01<br />num_claims:   4","year_month: 1984-07-01<br />num_claims:  12","year_month: 1984-08-01<br />num_claims:   4","year_month: 1984-09-01<br />num_claims:   6","year_month: 1984-10-01<br />num_claims:   6","year_month: 1984-11-01<br />num_claims:   5","year_month: 1984-12-01<br />num_claims:   5","year_month: 1985-01-01<br />num_claims:   1","year_month: 1985-03-01<br />num_claims:   4","year_month: 1985-05-01<br />num_claims:   4","year_month: 1985-06-01<br />num_claims:   6","year_month: 1985-07-01<br />num_claims:   6","year_month: 1985-08-01<br />num_claims:   1","year_month: 1985-09-01<br />num_claims:   5","year_month: 1985-11-01<br />num_claims:   5","year_month: 1986-01-01<br />num_claims:   4","year_month: 1986-02-01<br />num_claims:   5","year_month: 1986-03-01<br />num_claims:  18","year_month: 1986-04-01<br />num_claims:   1","year_month: 1986-05-01<br />num_claims:  13","year_month: 1986-06-01<br />num_claims:   9","year_month: 1986-07-01<br />num_claims:  19","year_month: 1986-08-01<br />num_claims:  11","year_month: 1986-09-01<br />num_claims:   5","year_month: 1986-10-01<br />num_claims:  15","year_month: 1986-11-01<br />num_claims:  23","year_month: 1986-12-01<br />num_claims:  17","year_month: 1987-01-01<br />num_claims:  12","year_month: 1987-02-01<br />num_claims:  31","year_month: 1987-03-01<br />num_claims:  22","year_month: 1987-04-01<br />num_claims:  67","year_month: 1987-05-01<br />num_claims:  21","year_month: 1987-06-01<br />num_claims:  16","year_month: 1987-07-01<br />num_claims:   9","year_month: 1987-09-01<br />num_claims:   7","year_month: 1987-10-01<br />num_claims:  23","year_month: 1987-11-01<br />num_claims:   9","year_month: 1987-12-01<br />num_claims:  12","year_month: 1988-01-01<br />num_claims:  16","year_month: 1988-02-01<br />num_claims:   5","year_month: 1988-03-01<br />num_claims:   7","year_month: 1988-04-01<br />num_claims:  23","year_month: 1988-05-01<br />num_claims:  13","year_month: 1988-06-01<br />num_claims:  12","year_month: 1988-07-01<br />num_claims:  12","year_month: 1988-08-01<br />num_claims:   4","year_month: 1988-09-01<br />num_claims:   8","year_month: 1988-10-01<br />num_claims:  19","year_month: 1988-11-01<br />num_claims:  15","year_month: 1988-12-01<br />num_claims:  23","year_month: 1989-01-01<br />num_claims:  22","year_month: 1989-02-01<br />num_claims:   7","year_month: 1989-03-01<br />num_claims:  11","year_month: 1989-04-01<br />num_claims:  22","year_month: 1989-05-01<br />num_claims:  13","year_month: 1989-06-01<br />num_claims:   3","year_month: 1989-07-01<br />num_claims:  15","year_month: 1989-08-01<br />num_claims:  13","year_month: 1989-09-01<br />num_claims:   7","year_month: 1989-10-01<br />num_claims:  19","year_month: 1989-11-01<br />num_claims:  16","year_month: 1989-12-01<br />num_claims:  14","year_month: 1990-01-01<br />num_claims:  14","year_month: 1990-02-01<br />num_claims:   4","year_month: 1990-03-01<br />num_claims:  10","year_month: 1990-04-01<br />num_claims:  12","year_month: 1990-05-01<br />num_claims:  17","year_month: 1990-06-01<br />num_claims:  10","year_month: 1990-07-01<br />num_claims:   6","year_month: 1990-08-01<br />num_claims:  11","year_month: 1990-09-01<br />num_claims:  13","year_month: 1990-10-01<br />num_claims:  16","year_month: 1990-11-01<br />num_claims:  18","year_month: 1990-12-01<br />num_claims:  16","year_month: 1991-01-01<br />num_claims:  37","year_month: 1991-02-01<br />num_claims:   5","year_month: 1991-03-01<br />num_claims:  25","year_month: 1991-04-01<br />num_claims:  16","year_month: 1991-05-01<br />num_claims:  10","year_month: 1991-06-01<br />num_claims:  11","year_month: 1991-07-01<br />num_claims:  15","year_month: 1991-08-01<br />num_claims:  33","year_month: 1991-09-01<br />num_claims:   3","year_month: 1991-10-01<br />num_claims:  15","year_month: 1991-11-01<br />num_claims:   5","year_month: 1991-12-01<br />num_claims:   2","year_month: 1992-01-01<br />num_claims:   1","year_month: 1992-06-01<br />num_claims:   1","year_month: 1992-07-01<br />num_claims:   1","year_month: 1992-08-01<br />num_claims:   1","year_month: 1992-10-01<br />num_claims:   2","year_month: 1992-12-01<br />num_claims:   1","year_month: 1993-01-01<br />num_claims:   1","year_month: 1993-02-01<br />num_claims:   1","year_month: 1993-03-01<br />num_claims:   2","year_month: 1993-04-01<br />num_claims:   4","year_month: 1993-06-01<br />num_claims:   1","year_month: 1993-07-01<br />num_claims:   2","year_month: 1993-08-01<br />num_claims:   5","year_month: 1993-09-01<br />num_claims:   1","year_month: 1993-10-01<br />num_claims:   1","year_month: 1993-11-01<br />num_claims:   1","year_month: 1993-12-01<br />num_claims:   3","year_month: 1994-01-01<br />num_claims:   1","year_month: 1994-02-01<br />num_claims:   2","year_month: 1994-03-01<br />num_claims:   2","year_month: 1994-04-01<br />num_claims:   1","year_month: 1994-08-01<br />num_claims:   1","year_month: 1994-09-01<br />num_claims:   1","year_month: 1994-12-01<br />num_claims:   2","year_month: 1995-01-01<br />num_claims:   1","year_month: 1995-02-01<br />num_claims:   2","year_month: 1995-03-01<br />num_claims:   1","year_month: 1995-04-01<br />num_claims:   2","year_month: 1995-05-01<br />num_claims:   1","year_month: 1995-06-01<br />num_claims:   1","year_month: 1995-07-01<br />num_claims:   1","year_month: 1995-08-01<br />num_claims:   1","year_month: 1995-09-01<br />num_claims:   1","year_month: 1995-11-01<br />num_claims:   4","year_month: 1995-12-01<br />num_claims:   4","year_month: 1996-01-01<br />num_claims:   1","year_month: 1996-02-01<br />num_claims:   1","year_month: 1996-03-01<br />num_claims:   2","year_month: 1996-05-01<br />num_claims:   1","year_month: 1996-06-01<br />num_claims:   6","year_month: 1996-07-01<br />num_claims:   4","year_month: 1996-09-01<br />num_claims:   1","year_month: 1996-10-01<br />num_claims:   1","year_month: 1997-01-01<br />num_claims:   1","year_month: 1997-02-01<br />num_claims:   1","year_month: 1997-03-01<br />num_claims:   1","year_month: 1997-05-01<br />num_claims:   1","year_month: 1997-07-01<br />num_claims:   4","year_month: 1997-12-01<br />num_claims:   1","year_month: 1998-01-01<br />num_claims:   1","year_month: 1998-02-01<br />num_claims:   8","year_month: 1998-03-01<br />num_claims:   2","year_month: 1998-04-01<br />num_claims:   2","year_month: 1998-05-01<br />num_claims:   2","year_month: 1998-06-01<br />num_claims:   1","year_month: 1998-07-01<br />num_claims:   4","year_month: 1998-08-01<br />num_claims:   1","year_month: 1998-09-01<br />num_claims:   1","year_month: 1998-12-01<br />num_claims:   1","year_month: 1999-01-01<br />num_claims:   4","year_month: 1999-02-01<br />num_claims:   1","year_month: 1999-07-01<br />num_claims:   2","year_month: 1999-09-01<br />num_claims:   3","year_month: 1999-10-01<br />num_claims:   1","year_month: 1999-11-01<br />num_claims:   1","year_month: 2000-02-01<br />num_claims:   3","year_month: 2000-03-01<br />num_claims:   2","year_month: 2000-04-01<br />num_claims:   1","year_month: 2000-05-01<br />num_claims:   1","year_month: 2000-08-01<br />num_claims:   1","year_month: 2000-09-01<br />num_claims:   2","year_month: 2000-10-01<br />num_claims:   4","year_month: 2000-12-01<br />num_claims:   2","year_month: 2001-01-01<br />num_claims:   3","year_month: 2001-02-01<br />num_claims:   2","year_month: 2001-03-01<br />num_claims:   1","year_month: 2001-05-01<br />num_claims:   1","year_month: 2001-06-01<br />num_claims:   2","year_month: 2001-07-01<br />num_claims:   3","year_month: 2001-08-01<br />num_claims:   3","year_month: 2001-09-01<br />num_claims:   3","year_month: 2001-10-01<br />num_claims:   7","year_month: 2001-11-01<br />num_claims:   5","year_month: 2001-12-01<br />num_claims:   1","year_month: 2002-01-01<br />num_claims:   7","year_month: 2002-02-01<br />num_claims:   1","year_month: 2002-03-01<br />num_claims:   5","year_month: 2002-04-01<br />num_claims:   3","year_month: 2002-06-01<br />num_claims:   1","year_month: 2002-08-01<br />num_claims:   2","year_month: 2002-10-01<br />num_claims:   2","year_month: 2003-01-01<br />num_claims:   2","year_month: 2003-02-01<br />num_claims:   4","year_month: 2003-03-01<br />num_claims:   3","year_month: 2003-08-01<br />num_claims:   1","year_month: 2003-09-01<br />num_claims:   1","year_month: 2003-10-01<br />num_claims:   3","year_month: 2003-11-01<br />num_claims:   1","year_month: 2004-01-01<br />num_claims:   3","year_month: 2004-04-01<br />num_claims:   3","year_month: 2004-06-01<br />num_claims:   1","year_month: 2004-08-01<br />num_claims:   2","year_month: 2004-09-01<br />num_claims:   1","year_month: 2004-12-01<br />num_claims:   1","year_month: 2005-01-01<br />num_claims:   1","year_month: 2005-02-01<br />num_claims:   1","year_month: 2005-03-01<br />num_claims:  15","year_month: 2005-04-01<br />num_claims:   3","year_month: 2005-05-01<br />num_claims:   3","year_month: 2005-06-01<br />num_claims:   1","year_month: 2005-07-01<br />num_claims:   8","year_month: 2005-08-01<br />num_claims:   5","year_month: 2005-09-01<br />num_claims:   5","year_month: 2005-10-01<br />num_claims:   5","year_month: 2005-11-01<br />num_claims:   2","year_month: 2005-12-01<br />num_claims:   6","year_month: 2006-01-01<br />num_claims:   9","year_month: 2006-02-01<br />num_claims:   7","year_month: 2006-03-01<br />num_claims:  11","year_month: 2006-04-01<br />num_claims:   8","year_month: 2006-05-01<br />num_claims:   2","year_month: 2006-06-01<br />num_claims:  10","year_month: 2006-07-01<br />num_claims:   8","year_month: 2006-08-01<br />num_claims:   3","year_month: 2006-09-01<br />num_claims:   2","year_month: 2006-10-01<br />num_claims:   6","year_month: 2006-11-01<br />num_claims:   7","year_month: 2006-12-01<br />num_claims:   6","year_month: 2007-01-01<br />num_claims:   7","year_month: 2007-02-01<br />num_claims:   8","year_month: 2007-03-01<br />num_claims:  10","year_month: 2007-04-01<br />num_claims:  14","year_month: 2007-05-01<br />num_claims:  11","year_month: 2007-06-01<br />num_claims:   5","year_month: 2007-07-01<br />num_claims:   1","year_month: 2007-08-01<br />num_claims:   7","year_month: 2007-09-01<br />num_claims:   1","year_month: 2007-10-01<br />num_claims:   2","year_month: 2007-11-01<br />num_claims:   2","year_month: 2007-12-01<br />num_claims:   4","year_month: 2008-01-01<br />num_claims:   8","year_month: 2008-02-01<br />num_claims:   3","year_month: 2008-03-01<br />num_claims:   5","year_month: 2008-04-01<br />num_claims:  31","year_month: 2008-05-01<br />num_claims:   2","year_month: 2008-06-01<br />num_claims:  12","year_month: 2008-07-01<br />num_claims:   3","year_month: 2008-08-01<br />num_claims:   2","year_month: 2008-09-01<br />num_claims:   1","year_month: 2008-10-01<br />num_claims:   2","year_month: 2008-11-01<br />num_claims:   1","year_month: 2008-12-01<br />num_claims:  17","year_month: 2009-01-01<br />num_claims:   8","year_month: 2009-02-01<br />num_claims:   1","year_month: 2009-03-01<br />num_claims:   9","year_month: 2009-04-01<br />num_claims:  14","year_month: 2009-05-01<br />num_claims:   3","year_month: 2009-07-01<br />num_claims:   4","year_month: 2009-09-01<br />num_claims:   9","year_month: 2009-10-01<br />num_claims:  12","year_month: 2009-11-01<br />num_claims:   4","year_month: 2009-12-01<br />num_claims:   3","year_month: 2010-01-01<br />num_claims:  12","year_month: 2010-02-01<br />num_claims:  10","year_month: 2010-03-01<br />num_claims:   7","year_month: 2010-04-01<br />num_claims:  11","year_month: 2010-05-01<br />num_claims:   9","year_month: 2010-06-01<br />num_claims:   9","year_month: 2010-07-01<br />num_claims:   9","year_month: 2010-08-01<br />num_claims:   1","year_month: 2010-09-01<br />num_claims:   7","year_month: 2010-10-01<br />num_claims:   1","year_month: 2010-12-01<br />num_claims:   9","year_month: 2011-01-01<br />num_claims:   6","year_month: 2011-02-01<br />num_claims:  11","year_month: 2011-03-01<br />num_claims:  14","year_month: 2011-04-01<br />num_claims:  12","year_month: 2011-05-01<br />num_claims:  17","year_month: 2011-06-01<br />num_claims:   9","year_month: 2011-07-01<br />num_claims:   1","year_month: 2011-08-01<br />num_claims:   6","year_month: 2011-09-01<br />num_claims:  10","year_month: 2011-10-01<br />num_claims:   7","year_month: 2011-11-01<br />num_claims:  12","year_month: 2011-12-01<br />num_claims:   2","year_month: 2012-01-01<br />num_claims:  21","year_month: 2012-02-01<br />num_claims:   4","year_month: 2012-03-01<br />num_claims:   6","year_month: 2012-04-01<br />num_claims:  19","year_month: 2012-05-01<br />num_claims:  10","year_month: 2012-06-01<br />num_claims:   2","year_month: 2012-07-01<br />num_claims:  13","year_month: 2012-08-01<br />num_claims:   1","year_month: 2012-09-01<br />num_claims:   4","year_month: 2012-10-01<br />num_claims:  11","year_month: 2012-11-01<br />num_claims:   7","year_month: 2012-12-01<br />num_claims:  21","year_month: 2013-01-01<br />num_claims:  17","year_month: 2013-02-01<br />num_claims:  16","year_month: 2013-03-01<br />num_claims:   8","year_month: 2013-04-01<br />num_claims:   9","year_month: 2013-05-01<br />num_claims:  26","year_month: 2013-06-01<br />num_claims:  26","year_month: 2013-07-01<br />num_claims:  27","year_month: 2013-08-01<br />num_claims:  23","year_month: 2013-09-01<br />num_claims:  22","year_month: 2013-10-01<br />num_claims:  35","year_month: 2013-11-01<br />num_claims:  36","year_month: 2013-12-01<br />num_claims:  29","year_month: 2014-01-01<br />num_claims:  36","year_month: 2014-02-01<br />num_claims:  60","year_month: 2014-03-01<br />num_claims:  65","year_month: 2014-04-01<br />num_claims:  49","year_month: 2014-05-01<br />num_claims:  53","year_month: 2014-06-01<br />num_claims:  39","year_month: 2014-07-01<br />num_claims:  43","year_month: 2014-08-01<br />num_claims:  45","year_month: 2014-09-01<br />num_claims:  63","year_month: 2014-10-01<br />num_claims:  69","year_month: 2014-11-01<br />num_claims:  67","year_month: 2014-12-01<br />num_claims:  81","year_month: 2015-01-01<br />num_claims:  88","year_month: 2015-02-01<br />num_claims:  69","year_month: 2015-03-01<br />num_claims: 106","year_month: 2015-04-01<br />num_claims:  95","year_month: 2015-05-01<br />num_claims:  94","year_month: 2015-06-01<br />num_claims:  87","year_month: 2015-07-01<br />num_claims:  62","year_month: 2015-08-01<br />num_claims:  59","year_month: 2015-09-01<br />num_claims:  47","year_month: 2015-10-01<br />num_claims:  54","year_month: 2015-11-01<br />num_claims:  56","year_month: 2015-12-01<br />num_claims:  60","year_month: 2016-01-01<br />num_claims:  38","year_month: 2016-02-01<br />num_claims:  42","year_month: 2016-03-01<br />num_claims:  74","year_month: 2016-04-01<br />num_claims:  70","year_month: 2016-05-01<br />num_claims:  84","year_month: 2016-06-01<br />num_claims:  86","year_month: 2016-07-01<br />num_claims:  89","year_month: 2016-08-01<br />num_claims:  83","year_month: 2016-09-01<br />num_claims:  36","year_month: 2016-10-01<br />num_claims:  52","year_month: 2016-11-01<br />num_claims:  52","year_month: 2016-12-01<br />num_claims:  46","year_month: 2017-01-01<br />num_claims:  57","year_month: 2017-02-01<br />num_claims:  47","year_month: 2017-03-01<br />num_claims:  68","year_month: 2017-04-01<br />num_claims:  91","year_month: 2017-05-01<br />num_claims:  64","year_month: 2017-06-01<br />num_claims:  52","year_month: 2017-07-01<br />num_claims:  70","year_month: 2017-08-01<br />num_claims:  58","year_month: 2017-09-01<br />num_claims:  39","year_month: 2017-10-01<br />num_claims:  60","year_month: 2017-11-01<br />num_claims:  55","year_month: 2017-12-01<br />num_claims:  65","year_month: 2018-01-01<br />num_claims:  77","year_month: 2018-02-01<br />num_claims:  73","year_month: 2018-03-01<br />num_claims:  65","year_month: 2018-04-01<br />num_claims:  87","year_month: 2018-05-01<br />num_claims:  91","year_month: 2018-06-01<br />num_claims:  54","year_month: 2018-07-01<br />num_claims:  44","year_month: 2018-08-01<br />num_claims:  44","year_month: 2018-09-01<br />num_claims:  23","year_month: 2018-10-01<br />num_claims:  32","year_month: 2018-11-01<br />num_claims:  53","year_month: 2018-12-01<br />num_claims:  54","year_month: 2019-01-01<br />num_claims:  56","year_month: 2019-02-01<br />num_claims:  41","year_month: 2019-03-01<br />num_claims:  83","year_month: 2019-04-01<br />num_claims:  78","year_month: 2019-05-01<br />num_claims:  82","year_month: 2019-06-01<br />num_claims: 118","year_month: 2019-07-01<br />num_claims:  80","year_month: 2019-08-01<br />num_claims:  70","year_month: 2019-09-01<br />num_claims:  64","year_month: 2019-10-01<br />num_claims:  85","year_month: 2019-11-01<br />num_claims:  97","year_month: 2019-12-01<br />num_claims:  86","year_month: 2020-01-01<br />num_claims:  71","year_month: 2020-02-01<br />num_claims:  66","year_month: 2020-03-01<br />num_claims:  80","year_month: 2020-04-01<br />num_claims: 100","year_month: 2020-05-01<br />num_claims: 129","year_month: 2020-06-01<br />num_claims:  95","year_month: 2020-07-01<br />num_claims:  79","year_month: 2020-08-01<br />num_claims:  78","year_month: 2020-09-01<br />num_claims:  64","year_month: 2020-10-01<br />num_claims:  67","year_month: 2020-11-01<br />num_claims:  85","year_month: 2020-12-01<br />num_claims: 106","year_month: 2021-01-01<br />num_claims: 158","year_month: 2021-02-01<br />num_claims:  65","year_month: 2021-03-01<br />num_claims: 100","year_month: 2021-04-01<br />num_claims: 100","year_month: 2021-05-01<br />num_claims: 118","year_month: 2021-06-01<br />num_claims:  93","year_month: 2021-07-01<br />num_claims: 101","year_month: 2021-08-01<br />num_claims:  91","year_month: 2021-09-01<br />num_claims:  60","year_month: 2021-10-01<br />num_claims:  79","year_month: 2021-11-01<br />num_claims:  65","year_month: 2021-12-01<br />num_claims:  68","year_month: 2022-01-01<br />num_claims:  76","year_month: 2022-02-01<br />num_claims:  76","year_month: 2022-03-01<br />num_claims:  85","year_month: 2022-04-01<br />num_claims:  72","year_month: 2022-05-01<br />num_claims: 103","year_month: 2022-06-01<br />num_claims:  61","year_month: 2022-07-01<br />num_claims:  65","year_month: 2022-08-01<br />num_claims:  85","year_month: 2022-09-01<br />num_claims:  68","year_month: 2022-10-01<br />num_claims:  56","year_month: 2022-11-01<br />num_claims:  53","year_month: 2022-12-01<br />num_claims:  56","year_month: 2023-01-01<br />num_claims:  65","year_month: 2023-02-01<br />num_claims:  44","year_month: 2023-03-01<br />num_claims:  50","year_month: 2023-04-01<br />num_claims:  94","year_month: 2023-05-01<br />num_claims: 117","year_month: 2023-06-01<br />num_claims:  85","year_month: 2023-07-01<br />num_claims:  84","year_month: 2023-08-01<br />num_claims:  61","year_month: 2023-09-01<br />num_claims:  78","year_month: 2023-10-01<br />num_claims:  64","year_month: 2023-11-01<br />num_claims:  48","year_month: 2023-12-01<br />num_claims:  90","year_month: 2024-01-01<br />num_claims:  75","year_month: 2024-02-01<br />num_claims:  65","year_month: 2024-03-01<br />num_claims:  52","year_month: 2024-04-01<br />num_claims: 102","year_month: 2024-05-01<br />num_claims: 107","year_month: 2024-06-01<br />num_claims:  60","year_month: 2024-07-01<br />num_claims:  63","year_month: 2024-08-01<br />num_claims:  63","year_month: 2024-09-01<br />num_claims:  15"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826491,"l":43.105022831050235},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Number of Claims per Month","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-1668595680,1886755680],"tickmode":"array","ticktext":["1920","1940","1960","1980","2000","2020"],"tickvals":[-1577923200,-946771200,-315619200,315532800,946684800,1577836800],"categoryorder":"array","categoryarray":["1920","1940","1960","1980","2000","2020"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Month","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-6.8500000000000005,165.84999999999999],"tickmode":"array","ticktext":["0","50","100","150"],"tickvals":[0,50.000000000000007,100.00000000000001,150],"categoryorder":"array","categoryarray":["0","50","100","150"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of Claims","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"77d2f69850a":{"x":{},"y":{},"type":"scatter"}},"cur_data":"77d2f69850a","visdat":{"77d2f69850a":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dv3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(claims_clean2, <span class="fu">aes</span>(<span class="at">x =</span> year_month, <span class="at">y =</span> num_claims)) <span class="sc">+</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Number of Claims per Month"</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Month"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Claims"</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_datetime</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="fu">as.POSIXct</span>(<span class="st">"2010-01-01"</span>), <span class="cn">NA</span>))</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(dv3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-d371126d3b14b4c1873e" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-d371126d3b14b4c1873e">{"x":{"data":[{"x":[1262304000,1264982400,1267401600,1270080000,1272672000,1275350400,1277942400,1280620800,1283299200,1285891200,1291161600,1293840000,1296518400,1298937600,1301616000,1304208000,1306886400,1309478400,1312156800,1314835200,1317427200,1320105600,1322697600,1325376000,1328054400,1330560000,1333238400,1335830400,1338508800,1341100800,1343779200,1346457600,1349049600,1351728000,1354320000,1356998400,1359676800,1362096000,1364774400,1367366400,1370044800,1372636800,1375315200,1377993600,1380585600,1383264000,1385856000,1388534400,1391212800,1393632000,1396310400,1398902400,1401580800,1404172800,1406851200,1409529600,1412121600,1414800000,1417392000,1420070400,1422748800,1425168000,1427846400,1430438400,1433116800,1435708800,1438387200,1441065600,1443657600,1446336000,1448928000,1451606400,1454284800,1456790400,1459468800,1462060800,1464739200,1467331200,1470009600,1472688000,1475280000,1477958400,1480550400,1483228800,1485907200,1488326400,1491004800,1493596800,1496275200,1498867200,1501545600,1504224000,1506816000,1509494400,1512086400,1514764800,1517443200,1519862400,1522540800,1525132800,1527811200,1530403200,1533081600,1535760000,1538352000,1541030400,1543622400,1546300800,1548979200,1551398400,1554076800,1556668800,1559347200,1561939200,1564617600,1567296000,1569888000,1572566400,1575158400,1577836800,1580515200,1583020800,1585699200,1588291200,1590969600,1593561600,1596240000,1598918400,1601510400,1604188800,1606780800,1609459200,1612137600,1614556800,1617235200,1619827200,1622505600,1625097600,1627776000,1630454400,1633046400,1635724800,1638316800,1640995200,1643673600,1646092800,1648771200,1651363200,1654041600,1656633600,1659312000,1661990400,1664582400,1667260800,1669852800,1672531200,1675209600,1677628800,1680307200,1682899200,1685577600,1688169600,1690848000,1693526400,1696118400,1698796800,1701388800,1704067200,1706745600,1709251200,1711929600,1714521600,1717200000,1719792000,1722470400,1725148800,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"y":[12,10,7,11,9,9,9,1,7,1,9,6,11,14,12,17,9,1,6,10,7,12,2,21,4,6,19,10,2,13,1,4,11,7,21,17,16,8,9,26,26,27,23,22,35,36,29,36,60,65,49,53,39,43,45,63,69,67,81,88,69,106,95,94,87,62,59,47,54,56,60,38,42,74,70,84,86,89,83,36,52,52,46,57,47,68,91,64,52,70,58,39,60,55,65,77,73,65,87,91,54,44,44,23,32,53,54,56,41,83,78,82,118,80,70,64,85,97,86,71,66,80,100,129,95,79,78,64,67,85,106,158,65,100,100,118,93,101,91,60,79,65,68,76,76,85,72,103,61,65,85,68,56,53,56,65,44,50,94,117,85,84,61,78,64,48,90,75,65,52,102,107,60,63,63,15,1,1,1,1,3,1,2,2,1,2,1,1,1,4,1,1,2,1,1,1,1,2,1,1,1,1,2,2,1,2,1,1,1,1,1,2,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,4,4,3,5,1,5,4,4,1,2,5,1,5,10,2,4,1,5,1,1,6,6,1,6,13,20,19,22,21,22,21,21,19,16,13,19,21,22,19,24,21,21,21,14,21,15,15,21,21,21,17,16,21,16,18,14,17,11,15,17,13,17,12,21,21,17,17,19,15,14,15,15,21,21,20,15,18,21,17,17,13,17,15,14,18,21,21,16,16,9,4,1,1,7,1,1,1,1,2,1,1,4,10,1,1,1,6,5,1,2,6,4,2,4,3,8,4,10,2,2,5,3,1,5,4,9,2,4,1,6,1,1,2,7,8,12,1,3,2,1,2,4,4,12,4,6,6,5,5,1,4,4,6,6,1,5,5,4,5,18,1,13,9,19,11,5,15,23,17,12,31,22,67,21,16,9,7,23,9,12,16,5,7,23,13,12,12,4,8,19,15,23,22,7,11,22,13,3,15,13,7,19,16,14,14,4,10,12,17,10,6,11,13,16,18,16,37,5,25,16,10,11,15,33,3,15,5,2,1,1,1,1,2,1,1,1,2,4,1,2,5,1,1,1,3,1,2,2,1,1,1,2,1,2,1,2,1,1,1,1,1,4,4,1,1,2,1,6,4,1,1,1,1,1,1,4,1,1,8,2,2,2,1,4,1,1,1,4,1,2,3,1,1,3,2,1,1,1,2,4,2,3,2,1,1,2,3,3,3,7,5,1,7,1,5,3,1,2,2,2,4,3,1,1,3,1,3,3,1,2,1,1,1,1,15,3,3,1,8,5,5,5,2,6,9,7,11,8,2,10,8,3,2,6,7,6,7,8,10,14,11,5,1,7,1,2,2,4,8,3,5,31,2,12,3,2,1,2,1,17,8,1,9,14,3,4,9,12,4,3],"text":["year_month: 2010-01-01<br />num_claims:  12","year_month: 2010-02-01<br />num_claims:  10","year_month: 2010-03-01<br />num_claims:   7","year_month: 2010-04-01<br />num_claims:  11","year_month: 2010-05-01<br />num_claims:   9","year_month: 2010-06-01<br />num_claims:   9","year_month: 2010-07-01<br />num_claims:   9","year_month: 2010-08-01<br />num_claims:   1","year_month: 2010-09-01<br />num_claims:   7","year_month: 2010-10-01<br />num_claims:   1","year_month: 2010-12-01<br />num_claims:   9","year_month: 2011-01-01<br />num_claims:   6","year_month: 2011-02-01<br />num_claims:  11","year_month: 2011-03-01<br />num_claims:  14","year_month: 2011-04-01<br />num_claims:  12","year_month: 2011-05-01<br />num_claims:  17","year_month: 2011-06-01<br />num_claims:   9","year_month: 2011-07-01<br />num_claims:   1","year_month: 2011-08-01<br />num_claims:   6","year_month: 2011-09-01<br />num_claims:  10","year_month: 2011-10-01<br />num_claims:   7","year_month: 2011-11-01<br />num_claims:  12","year_month: 2011-12-01<br />num_claims:   2","year_month: 2012-01-01<br />num_claims:  21","year_month: 2012-02-01<br />num_claims:   4","year_month: 2012-03-01<br />num_claims:   6","year_month: 2012-04-01<br />num_claims:  19","year_month: 2012-05-01<br />num_claims:  10","year_month: 2012-06-01<br />num_claims:   2","year_month: 2012-07-01<br />num_claims:  13","year_month: 2012-08-01<br />num_claims:   1","year_month: 2012-09-01<br />num_claims:   4","year_month: 2012-10-01<br />num_claims:  11","year_month: 2012-11-01<br />num_claims:   7","year_month: 2012-12-01<br />num_claims:  21","year_month: 2013-01-01<br />num_claims:  17","year_month: 2013-02-01<br />num_claims:  16","year_month: 2013-03-01<br />num_claims:   8","year_month: 2013-04-01<br />num_claims:   9","year_month: 2013-05-01<br />num_claims:  26","year_month: 2013-06-01<br />num_claims:  26","year_month: 2013-07-01<br />num_claims:  27","year_month: 2013-08-01<br />num_claims:  23","year_month: 2013-09-01<br />num_claims:  22","year_month: 2013-10-01<br />num_claims:  35","year_month: 2013-11-01<br />num_claims:  36","year_month: 2013-12-01<br />num_claims:  29","year_month: 2014-01-01<br />num_claims:  36","year_month: 2014-02-01<br />num_claims:  60","year_month: 2014-03-01<br />num_claims:  65","year_month: 2014-04-01<br />num_claims:  49","year_month: 2014-05-01<br />num_claims:  53","year_month: 2014-06-01<br />num_claims:  39","year_month: 2014-07-01<br />num_claims:  43","year_month: 2014-08-01<br />num_claims:  45","year_month: 2014-09-01<br />num_claims:  63","year_month: 2014-10-01<br />num_claims:  69","year_month: 2014-11-01<br />num_claims:  67","year_month: 2014-12-01<br />num_claims:  81","year_month: 2015-01-01<br />num_claims:  88","year_month: 2015-02-01<br />num_claims:  69","year_month: 2015-03-01<br />num_claims: 106","year_month: 2015-04-01<br />num_claims:  95","year_month: 2015-05-01<br />num_claims:  94","year_month: 2015-06-01<br />num_claims:  87","year_month: 2015-07-01<br />num_claims:  62","year_month: 2015-08-01<br />num_claims:  59","year_month: 2015-09-01<br />num_claims:  47","year_month: 2015-10-01<br />num_claims:  54","year_month: 2015-11-01<br />num_claims:  56","year_month: 2015-12-01<br />num_claims:  60","year_month: 2016-01-01<br />num_claims:  38","year_month: 2016-02-01<br />num_claims:  42","year_month: 2016-03-01<br />num_claims:  74","year_month: 2016-04-01<br />num_claims:  70","year_month: 2016-05-01<br />num_claims:  84","year_month: 2016-06-01<br />num_claims:  86","year_month: 2016-07-01<br />num_claims:  89","year_month: 2016-08-01<br />num_claims:  83","year_month: 2016-09-01<br />num_claims:  36","year_month: 2016-10-01<br />num_claims:  52","year_month: 2016-11-01<br />num_claims:  52","year_month: 2016-12-01<br />num_claims:  46","year_month: 2017-01-01<br />num_claims:  57","year_month: 2017-02-01<br />num_claims:  47","year_month: 2017-03-01<br />num_claims:  68","year_month: 2017-04-01<br />num_claims:  91","year_month: 2017-05-01<br />num_claims:  64","year_month: 2017-06-01<br />num_claims:  52","year_month: 2017-07-01<br />num_claims:  70","year_month: 2017-08-01<br />num_claims:  58","year_month: 2017-09-01<br />num_claims:  39","year_month: 2017-10-01<br />num_claims:  60","year_month: 2017-11-01<br />num_claims:  55","year_month: 2017-12-01<br />num_claims:  65","year_month: 2018-01-01<br />num_claims:  77","year_month: 2018-02-01<br />num_claims:  73","year_month: 2018-03-01<br />num_claims:  65","year_month: 2018-04-01<br />num_claims:  87","year_month: 2018-05-01<br />num_claims:  91","year_month: 2018-06-01<br />num_claims:  54","year_month: 2018-07-01<br />num_claims:  44","year_month: 2018-08-01<br />num_claims:  44","year_month: 2018-09-01<br />num_claims:  23","year_month: 2018-10-01<br />num_claims:  32","year_month: 2018-11-01<br />num_claims:  53","year_month: 2018-12-01<br />num_claims:  54","year_month: 2019-01-01<br />num_claims:  56","year_month: 2019-02-01<br />num_claims:  41","year_month: 2019-03-01<br />num_claims:  83","year_month: 2019-04-01<br />num_claims:  78","year_month: 2019-05-01<br />num_claims:  82","year_month: 2019-06-01<br />num_claims: 118","year_month: 2019-07-01<br />num_claims:  80","year_month: 2019-08-01<br />num_claims:  70","year_month: 2019-09-01<br />num_claims:  64","year_month: 2019-10-01<br />num_claims:  85","year_month: 2019-11-01<br />num_claims:  97","year_month: 2019-12-01<br />num_claims:  86","year_month: 2020-01-01<br />num_claims:  71","year_month: 2020-02-01<br />num_claims:  66","year_month: 2020-03-01<br />num_claims:  80","year_month: 2020-04-01<br />num_claims: 100","year_month: 2020-05-01<br />num_claims: 129","year_month: 2020-06-01<br />num_claims:  95","year_month: 2020-07-01<br />num_claims:  79","year_month: 2020-08-01<br />num_claims:  78","year_month: 2020-09-01<br />num_claims:  64","year_month: 2020-10-01<br />num_claims:  67","year_month: 2020-11-01<br />num_claims:  85","year_month: 2020-12-01<br />num_claims: 106","year_month: 2021-01-01<br />num_claims: 158","year_month: 2021-02-01<br />num_claims:  65","year_month: 2021-03-01<br />num_claims: 100","year_month: 2021-04-01<br />num_claims: 100","year_month: 2021-05-01<br />num_claims: 118","year_month: 2021-06-01<br />num_claims:  93","year_month: 2021-07-01<br />num_claims: 101","year_month: 2021-08-01<br />num_claims:  91","year_month: 2021-09-01<br />num_claims:  60","year_month: 2021-10-01<br />num_claims:  79","year_month: 2021-11-01<br />num_claims:  65","year_month: 2021-12-01<br />num_claims:  68","year_month: 2022-01-01<br />num_claims:  76","year_month: 2022-02-01<br />num_claims:  76","year_month: 2022-03-01<br />num_claims:  85","year_month: 2022-04-01<br />num_claims:  72","year_month: 2022-05-01<br />num_claims: 103","year_month: 2022-06-01<br />num_claims:  61","year_month: 2022-07-01<br />num_claims:  65","year_month: 2022-08-01<br />num_claims:  85","year_month: 2022-09-01<br />num_claims:  68","year_month: 2022-10-01<br />num_claims:  56","year_month: 2022-11-01<br />num_claims:  53","year_month: 2022-12-01<br />num_claims:  56","year_month: 2023-01-01<br />num_claims:  65","year_month: 2023-02-01<br />num_claims:  44","year_month: 2023-03-01<br />num_claims:  50","year_month: 2023-04-01<br />num_claims:  94","year_month: 2023-05-01<br />num_claims: 117","year_month: 2023-06-01<br />num_claims:  85","year_month: 2023-07-01<br />num_claims:  84","year_month: 2023-08-01<br />num_claims:  61","year_month: 2023-09-01<br />num_claims:  78","year_month: 2023-10-01<br />num_claims:  64","year_month: 2023-11-01<br />num_claims:  48","year_month: 2023-12-01<br />num_claims:  90","year_month: 2024-01-01<br />num_claims:  75","year_month: 2024-02-01<br />num_claims:  65","year_month: 2024-03-01<br />num_claims:  52","year_month: 2024-04-01<br />num_claims: 102","year_month: 2024-05-01<br />num_claims: 107","year_month: 2024-06-01<br />num_claims:  60","year_month: 2024-07-01<br />num_claims:  63","year_month: 2024-08-01<br />num_claims:  63","year_month: 2024-09-01<br />num_claims:  15","year_month: 1922-04-01<br />num_claims:   1","year_month: 1922-06-01<br />num_claims:   1","year_month: 1922-08-01<br />num_claims:   1","year_month: 1922-10-01<br />num_claims:   1","year_month: 1923-01-01<br />num_claims:   3","year_month: 1923-04-01<br />num_claims:   1","year_month: 1923-06-01<br />num_claims:   2","year_month: 1923-07-01<br />num_claims:   2","year_month: 1923-10-01<br />num_claims:   1","year_month: 1924-04-01<br />num_claims:   2","year_month: 1924-05-01<br />num_claims:   1","year_month: 1936-07-01<br />num_claims:   1","year_month: 1938-06-01<br />num_claims:   1","year_month: 1940-06-01<br />num_claims:   4","year_month: 1941-09-01<br />num_claims:   1","year_month: 1942-01-01<br />num_claims:   1","year_month: 1942-09-01<br />num_claims:   2","year_month: 1943-11-01<br />num_claims:   1","year_month: 1944-07-01<br />num_claims:   1","year_month: 1944-12-01<br />num_claims:   1","year_month: 1949-08-01<br />num_claims:   1","year_month: 1950-07-01<br />num_claims:   2","year_month: 1951-01-01<br />num_claims:   1","year_month: 1953-07-01<br />num_claims:   1","year_month: 1954-04-01<br />num_claims:   1","year_month: 1954-07-01<br />num_claims:   1","year_month: 1954-09-01<br />num_claims:   2","year_month: 1955-05-01<br />num_claims:   2","year_month: 1956-07-01<br />num_claims:   1","year_month: 1957-03-01<br />num_claims:   2","year_month: 1957-04-01<br />num_claims:   1","year_month: 1959-01-01<br />num_claims:   1","year_month: 1959-07-01<br />num_claims:   1","year_month: 1960-04-01<br />num_claims:   1","year_month: 1961-02-01<br />num_claims:   1","year_month: 1961-10-01<br />num_claims:   2","year_month: 1962-02-01<br />num_claims:   1","year_month: 1962-05-01<br />num_claims:   1","year_month: 1963-07-01<br />num_claims:   1","year_month: 1963-10-01<br />num_claims:   1","year_month: 1964-06-01<br />num_claims:   1","year_month: 1964-07-01<br />num_claims:   2","year_month: 1964-11-01<br />num_claims:   1","year_month: 1965-07-01<br />num_claims:   1","year_month: 1965-08-01<br />num_claims:   1","year_month: 1966-06-01<br />num_claims:   1","year_month: 1966-10-01<br />num_claims:   1","year_month: 1967-04-01<br />num_claims:   1","year_month: 1968-06-01<br />num_claims:   1","year_month: 1968-08-01<br />num_claims:   1","year_month: 1968-10-01<br />num_claims:   1","year_month: 1969-03-01<br />num_claims:   1","year_month: 1969-04-01<br />num_claims:   1","year_month: 1969-05-01<br />num_claims:   4","year_month: 1969-07-01<br />num_claims:   4","year_month: 1969-08-01<br />num_claims:   3","year_month: 1969-09-01<br />num_claims:   5","year_month: 1969-11-01<br />num_claims:   1","year_month: 1969-12-01<br />num_claims:   5","year_month: 1970-02-01<br />num_claims:   4","year_month: 1970-04-01<br />num_claims:   4","year_month: 1970-05-01<br />num_claims:   1","year_month: 1970-06-01<br />num_claims:   2","year_month: 1970-07-01<br />num_claims:   5","year_month: 1970-08-01<br />num_claims:   1","year_month: 1970-09-01<br />num_claims:   5","year_month: 1970-12-01<br />num_claims:  10","year_month: 1971-02-01<br />num_claims:   2","year_month: 1971-03-01<br />num_claims:   4","year_month: 1971-06-01<br />num_claims:   1","year_month: 1971-07-01<br />num_claims:   5","year_month: 1971-08-01<br />num_claims:   1","year_month: 1971-10-01<br />num_claims:   1","year_month: 1971-12-01<br />num_claims:   6","year_month: 1972-01-01<br />num_claims:   6","year_month: 1972-02-01<br />num_claims:   1","year_month: 1972-03-01<br />num_claims:   6","year_month: 1972-04-01<br />num_claims:  13","year_month: 1972-05-01<br />num_claims:  20","year_month: 1972-06-01<br />num_claims:  19","year_month: 1972-07-01<br />num_claims:  22","year_month: 1972-08-01<br />num_claims:  21","year_month: 1972-09-01<br />num_claims:  22","year_month: 1972-10-01<br />num_claims:  21","year_month: 1972-11-01<br />num_claims:  21","year_month: 1972-12-01<br />num_claims:  19","year_month: 1973-01-01<br />num_claims:  16","year_month: 1973-02-01<br />num_claims:  13","year_month: 1973-03-01<br />num_claims:  19","year_month: 1973-04-01<br />num_claims:  21","year_month: 1973-05-01<br />num_claims:  22","year_month: 1973-06-01<br />num_claims:  19","year_month: 1973-07-01<br />num_claims:  24","year_month: 1973-08-01<br />num_claims:  21","year_month: 1973-09-01<br />num_claims:  21","year_month: 1973-10-01<br />num_claims:  21","year_month: 1973-11-01<br />num_claims:  14","year_month: 1973-12-01<br />num_claims:  21","year_month: 1974-01-01<br />num_claims:  15","year_month: 1974-02-01<br />num_claims:  15","year_month: 1974-03-01<br />num_claims:  21","year_month: 1974-04-01<br />num_claims:  21","year_month: 1974-05-01<br />num_claims:  21","year_month: 1974-06-01<br />num_claims:  17","year_month: 1974-07-01<br />num_claims:  16","year_month: 1974-08-01<br />num_claims:  21","year_month: 1974-09-01<br />num_claims:  16","year_month: 1974-10-01<br />num_claims:  18","year_month: 1974-11-01<br />num_claims:  14","year_month: 1974-12-01<br />num_claims:  17","year_month: 1975-01-01<br />num_claims:  11","year_month: 1975-02-01<br />num_claims:  15","year_month: 1975-03-01<br />num_claims:  17","year_month: 1975-04-01<br />num_claims:  13","year_month: 1975-05-01<br />num_claims:  17","year_month: 1975-06-01<br />num_claims:  12","year_month: 1975-07-01<br />num_claims:  21","year_month: 1975-08-01<br />num_claims:  21","year_month: 1975-09-01<br />num_claims:  17","year_month: 1975-10-01<br />num_claims:  17","year_month: 1975-11-01<br />num_claims:  19","year_month: 1975-12-01<br />num_claims:  15","year_month: 1976-01-01<br />num_claims:  14","year_month: 1976-02-01<br />num_claims:  15","year_month: 1976-03-01<br />num_claims:  15","year_month: 1976-04-01<br />num_claims:  21","year_month: 1976-05-01<br />num_claims:  21","year_month: 1976-06-01<br />num_claims:  20","year_month: 1976-07-01<br />num_claims:  15","year_month: 1976-08-01<br />num_claims:  18","year_month: 1976-09-01<br />num_claims:  21","year_month: 1976-10-01<br />num_claims:  17","year_month: 1976-11-01<br />num_claims:  17","year_month: 1976-12-01<br />num_claims:  13","year_month: 1977-01-01<br />num_claims:  17","year_month: 1977-02-01<br />num_claims:  15","year_month: 1977-03-01<br />num_claims:  14","year_month: 1977-04-01<br />num_claims:  18","year_month: 1977-05-01<br />num_claims:  21","year_month: 1977-06-01<br />num_claims:  21","year_month: 1977-07-01<br />num_claims:  16","year_month: 1977-08-01<br />num_claims:  16","year_month: 1977-09-01<br />num_claims:   9","year_month: 1977-10-01<br />num_claims:   4","year_month: 1977-11-01<br />num_claims:   1","year_month: 1978-02-01<br />num_claims:   1","year_month: 1978-03-01<br />num_claims:   7","year_month: 1978-04-01<br />num_claims:   1","year_month: 1978-05-01<br />num_claims:   1","year_month: 1978-07-01<br />num_claims:   1","year_month: 1978-08-01<br />num_claims:   1","year_month: 1978-09-01<br />num_claims:   2","year_month: 1978-10-01<br />num_claims:   1","year_month: 1979-01-01<br />num_claims:   1","year_month: 1979-02-01<br />num_claims:   4","year_month: 1979-03-01<br />num_claims:  10","year_month: 1979-04-01<br />num_claims:   1","year_month: 1979-05-01<br />num_claims:   1","year_month: 1979-06-01<br />num_claims:   1","year_month: 1979-08-01<br />num_claims:   6","year_month: 1979-09-01<br />num_claims:   5","year_month: 1979-11-01<br />num_claims:   1","year_month: 1979-12-01<br />num_claims:   2","year_month: 1980-06-01<br />num_claims:   6","year_month: 1980-08-01<br />num_claims:   4","year_month: 1980-11-01<br />num_claims:   2","year_month: 1981-01-01<br />num_claims:   4","year_month: 1981-03-01<br />num_claims:   3","year_month: 1981-04-01<br />num_claims:   8","year_month: 1981-06-01<br />num_claims:   4","year_month: 1981-08-01<br />num_claims:  10","year_month: 1981-10-01<br />num_claims:   2","year_month: 1981-11-01<br />num_claims:   2","year_month: 1982-02-01<br />num_claims:   5","year_month: 1982-03-01<br />num_claims:   3","year_month: 1982-05-01<br />num_claims:   1","year_month: 1982-06-01<br />num_claims:   5","year_month: 1982-07-01<br />num_claims:   4","year_month: 1982-08-01<br />num_claims:   9","year_month: 1982-09-01<br />num_claims:   2","year_month: 1982-10-01<br />num_claims:   4","year_month: 1982-11-01<br />num_claims:   1","year_month: 1983-01-01<br />num_claims:   6","year_month: 1983-02-01<br />num_claims:   1","year_month: 1983-03-01<br />num_claims:   1","year_month: 1983-05-01<br />num_claims:   2","year_month: 1983-07-01<br />num_claims:   7","year_month: 1983-08-01<br />num_claims:   8","year_month: 1983-09-01<br />num_claims:  12","year_month: 1983-10-01<br />num_claims:   1","year_month: 1983-11-01<br />num_claims:   3","year_month: 1984-01-01<br />num_claims:   2","year_month: 1984-02-01<br />num_claims:   1","year_month: 1984-03-01<br />num_claims:   2","year_month: 1984-04-01<br />num_claims:   4","year_month: 1984-05-01<br />num_claims:   4","year_month: 1984-07-01<br />num_claims:  12","year_month: 1984-08-01<br />num_claims:   4","year_month: 1984-09-01<br />num_claims:   6","year_month: 1984-10-01<br />num_claims:   6","year_month: 1984-11-01<br />num_claims:   5","year_month: 1984-12-01<br />num_claims:   5","year_month: 1985-01-01<br />num_claims:   1","year_month: 1985-03-01<br />num_claims:   4","year_month: 1985-05-01<br />num_claims:   4","year_month: 1985-06-01<br />num_claims:   6","year_month: 1985-07-01<br />num_claims:   6","year_month: 1985-08-01<br />num_claims:   1","year_month: 1985-09-01<br />num_claims:   5","year_month: 1985-11-01<br />num_claims:   5","year_month: 1986-01-01<br />num_claims:   4","year_month: 1986-02-01<br />num_claims:   5","year_month: 1986-03-01<br />num_claims:  18","year_month: 1986-04-01<br />num_claims:   1","year_month: 1986-05-01<br />num_claims:  13","year_month: 1986-06-01<br />num_claims:   9","year_month: 1986-07-01<br />num_claims:  19","year_month: 1986-08-01<br />num_claims:  11","year_month: 1986-09-01<br />num_claims:   5","year_month: 1986-10-01<br />num_claims:  15","year_month: 1986-11-01<br />num_claims:  23","year_month: 1986-12-01<br />num_claims:  17","year_month: 1987-01-01<br />num_claims:  12","year_month: 1987-02-01<br />num_claims:  31","year_month: 1987-03-01<br />num_claims:  22","year_month: 1987-04-01<br />num_claims:  67","year_month: 1987-05-01<br />num_claims:  21","year_month: 1987-06-01<br />num_claims:  16","year_month: 1987-07-01<br />num_claims:   9","year_month: 1987-09-01<br />num_claims:   7","year_month: 1987-10-01<br />num_claims:  23","year_month: 1987-11-01<br />num_claims:   9","year_month: 1987-12-01<br />num_claims:  12","year_month: 1988-01-01<br />num_claims:  16","year_month: 1988-02-01<br />num_claims:   5","year_month: 1988-03-01<br />num_claims:   7","year_month: 1988-04-01<br />num_claims:  23","year_month: 1988-05-01<br />num_claims:  13","year_month: 1988-06-01<br />num_claims:  12","year_month: 1988-07-01<br />num_claims:  12","year_month: 1988-08-01<br />num_claims:   4","year_month: 1988-09-01<br />num_claims:   8","year_month: 1988-10-01<br />num_claims:  19","year_month: 1988-11-01<br />num_claims:  15","year_month: 1988-12-01<br />num_claims:  23","year_month: 1989-01-01<br />num_claims:  22","year_month: 1989-02-01<br />num_claims:   7","year_month: 1989-03-01<br />num_claims:  11","year_month: 1989-04-01<br />num_claims:  22","year_month: 1989-05-01<br />num_claims:  13","year_month: 1989-06-01<br />num_claims:   3","year_month: 1989-07-01<br />num_claims:  15","year_month: 1989-08-01<br />num_claims:  13","year_month: 1989-09-01<br />num_claims:   7","year_month: 1989-10-01<br />num_claims:  19","year_month: 1989-11-01<br />num_claims:  16","year_month: 1989-12-01<br />num_claims:  14","year_month: 1990-01-01<br />num_claims:  14","year_month: 1990-02-01<br />num_claims:   4","year_month: 1990-03-01<br />num_claims:  10","year_month: 1990-04-01<br />num_claims:  12","year_month: 1990-05-01<br />num_claims:  17","year_month: 1990-06-01<br />num_claims:  10","year_month: 1990-07-01<br />num_claims:   6","year_month: 1990-08-01<br />num_claims:  11","year_month: 1990-09-01<br />num_claims:  13","year_month: 1990-10-01<br />num_claims:  16","year_month: 1990-11-01<br />num_claims:  18","year_month: 1990-12-01<br />num_claims:  16","year_month: 1991-01-01<br />num_claims:  37","year_month: 1991-02-01<br />num_claims:   5","year_month: 1991-03-01<br />num_claims:  25","year_month: 1991-04-01<br />num_claims:  16","year_month: 1991-05-01<br />num_claims:  10","year_month: 1991-06-01<br />num_claims:  11","year_month: 1991-07-01<br />num_claims:  15","year_month: 1991-08-01<br />num_claims:  33","year_month: 1991-09-01<br />num_claims:   3","year_month: 1991-10-01<br />num_claims:  15","year_month: 1991-11-01<br />num_claims:   5","year_month: 1991-12-01<br />num_claims:   2","year_month: 1992-01-01<br />num_claims:   1","year_month: 1992-06-01<br />num_claims:   1","year_month: 1992-07-01<br />num_claims:   1","year_month: 1992-08-01<br />num_claims:   1","year_month: 1992-10-01<br />num_claims:   2","year_month: 1992-12-01<br />num_claims:   1","year_month: 1993-01-01<br />num_claims:   1","year_month: 1993-02-01<br />num_claims:   1","year_month: 1993-03-01<br />num_claims:   2","year_month: 1993-04-01<br />num_claims:   4","year_month: 1993-06-01<br />num_claims:   1","year_month: 1993-07-01<br />num_claims:   2","year_month: 1993-08-01<br />num_claims:   5","year_month: 1993-09-01<br />num_claims:   1","year_month: 1993-10-01<br />num_claims:   1","year_month: 1993-11-01<br />num_claims:   1","year_month: 1993-12-01<br />num_claims:   3","year_month: 1994-01-01<br />num_claims:   1","year_month: 1994-02-01<br />num_claims:   2","year_month: 1994-03-01<br />num_claims:   2","year_month: 1994-04-01<br />num_claims:   1","year_month: 1994-08-01<br />num_claims:   1","year_month: 1994-09-01<br />num_claims:   1","year_month: 1994-12-01<br />num_claims:   2","year_month: 1995-01-01<br />num_claims:   1","year_month: 1995-02-01<br />num_claims:   2","year_month: 1995-03-01<br />num_claims:   1","year_month: 1995-04-01<br />num_claims:   2","year_month: 1995-05-01<br />num_claims:   1","year_month: 1995-06-01<br />num_claims:   1","year_month: 1995-07-01<br />num_claims:   1","year_month: 1995-08-01<br />num_claims:   1","year_month: 1995-09-01<br />num_claims:   1","year_month: 1995-11-01<br />num_claims:   4","year_month: 1995-12-01<br />num_claims:   4","year_month: 1996-01-01<br />num_claims:   1","year_month: 1996-02-01<br />num_claims:   1","year_month: 1996-03-01<br />num_claims:   2","year_month: 1996-05-01<br />num_claims:   1","year_month: 1996-06-01<br />num_claims:   6","year_month: 1996-07-01<br />num_claims:   4","year_month: 1996-09-01<br />num_claims:   1","year_month: 1996-10-01<br />num_claims:   1","year_month: 1997-01-01<br />num_claims:   1","year_month: 1997-02-01<br />num_claims:   1","year_month: 1997-03-01<br />num_claims:   1","year_month: 1997-05-01<br />num_claims:   1","year_month: 1997-07-01<br />num_claims:   4","year_month: 1997-12-01<br />num_claims:   1","year_month: 1998-01-01<br />num_claims:   1","year_month: 1998-02-01<br />num_claims:   8","year_month: 1998-03-01<br />num_claims:   2","year_month: 1998-04-01<br />num_claims:   2","year_month: 1998-05-01<br />num_claims:   2","year_month: 1998-06-01<br />num_claims:   1","year_month: 1998-07-01<br />num_claims:   4","year_month: 1998-08-01<br />num_claims:   1","year_month: 1998-09-01<br />num_claims:   1","year_month: 1998-12-01<br />num_claims:   1","year_month: 1999-01-01<br />num_claims:   4","year_month: 1999-02-01<br />num_claims:   1","year_month: 1999-07-01<br />num_claims:   2","year_month: 1999-09-01<br />num_claims:   3","year_month: 1999-10-01<br />num_claims:   1","year_month: 1999-11-01<br />num_claims:   1","year_month: 2000-02-01<br />num_claims:   3","year_month: 2000-03-01<br />num_claims:   2","year_month: 2000-04-01<br />num_claims:   1","year_month: 2000-05-01<br />num_claims:   1","year_month: 2000-08-01<br />num_claims:   1","year_month: 2000-09-01<br />num_claims:   2","year_month: 2000-10-01<br />num_claims:   4","year_month: 2000-12-01<br />num_claims:   2","year_month: 2001-01-01<br />num_claims:   3","year_month: 2001-02-01<br />num_claims:   2","year_month: 2001-03-01<br />num_claims:   1","year_month: 2001-05-01<br />num_claims:   1","year_month: 2001-06-01<br />num_claims:   2","year_month: 2001-07-01<br />num_claims:   3","year_month: 2001-08-01<br />num_claims:   3","year_month: 2001-09-01<br />num_claims:   3","year_month: 2001-10-01<br />num_claims:   7","year_month: 2001-11-01<br />num_claims:   5","year_month: 2001-12-01<br />num_claims:   1","year_month: 2002-01-01<br />num_claims:   7","year_month: 2002-02-01<br />num_claims:   1","year_month: 2002-03-01<br />num_claims:   5","year_month: 2002-04-01<br />num_claims:   3","year_month: 2002-06-01<br />num_claims:   1","year_month: 2002-08-01<br />num_claims:   2","year_month: 2002-10-01<br />num_claims:   2","year_month: 2003-01-01<br />num_claims:   2","year_month: 2003-02-01<br />num_claims:   4","year_month: 2003-03-01<br />num_claims:   3","year_month: 2003-08-01<br />num_claims:   1","year_month: 2003-09-01<br />num_claims:   1","year_month: 2003-10-01<br />num_claims:   3","year_month: 2003-11-01<br />num_claims:   1","year_month: 2004-01-01<br />num_claims:   3","year_month: 2004-04-01<br />num_claims:   3","year_month: 2004-06-01<br />num_claims:   1","year_month: 2004-08-01<br />num_claims:   2","year_month: 2004-09-01<br />num_claims:   1","year_month: 2004-12-01<br />num_claims:   1","year_month: 2005-01-01<br />num_claims:   1","year_month: 2005-02-01<br />num_claims:   1","year_month: 2005-03-01<br />num_claims:  15","year_month: 2005-04-01<br />num_claims:   3","year_month: 2005-05-01<br />num_claims:   3","year_month: 2005-06-01<br />num_claims:   1","year_month: 2005-07-01<br />num_claims:   8","year_month: 2005-08-01<br />num_claims:   5","year_month: 2005-09-01<br />num_claims:   5","year_month: 2005-10-01<br />num_claims:   5","year_month: 2005-11-01<br />num_claims:   2","year_month: 2005-12-01<br />num_claims:   6","year_month: 2006-01-01<br />num_claims:   9","year_month: 2006-02-01<br />num_claims:   7","year_month: 2006-03-01<br />num_claims:  11","year_month: 2006-04-01<br />num_claims:   8","year_month: 2006-05-01<br />num_claims:   2","year_month: 2006-06-01<br />num_claims:  10","year_month: 2006-07-01<br />num_claims:   8","year_month: 2006-08-01<br />num_claims:   3","year_month: 2006-09-01<br />num_claims:   2","year_month: 2006-10-01<br />num_claims:   6","year_month: 2006-11-01<br />num_claims:   7","year_month: 2006-12-01<br />num_claims:   6","year_month: 2007-01-01<br />num_claims:   7","year_month: 2007-02-01<br />num_claims:   8","year_month: 2007-03-01<br />num_claims:  10","year_month: 2007-04-01<br />num_claims:  14","year_month: 2007-05-01<br />num_claims:  11","year_month: 2007-06-01<br />num_claims:   5","year_month: 2007-07-01<br />num_claims:   1","year_month: 2007-08-01<br />num_claims:   7","year_month: 2007-09-01<br />num_claims:   1","year_month: 2007-10-01<br />num_claims:   2","year_month: 2007-11-01<br />num_claims:   2","year_month: 2007-12-01<br />num_claims:   4","year_month: 2008-01-01<br />num_claims:   8","year_month: 2008-02-01<br />num_claims:   3","year_month: 2008-03-01<br />num_claims:   5","year_month: 2008-04-01<br />num_claims:  31","year_month: 2008-05-01<br />num_claims:   2","year_month: 2008-06-01<br />num_claims:  12","year_month: 2008-07-01<br />num_claims:   3","year_month: 2008-08-01<br />num_claims:   2","year_month: 2008-09-01<br />num_claims:   1","year_month: 2008-10-01<br />num_claims:   2","year_month: 2008-11-01<br />num_claims:   1","year_month: 2008-12-01<br />num_claims:  17","year_month: 2009-01-01<br />num_claims:   8","year_month: 2009-02-01<br />num_claims:   1","year_month: 2009-03-01<br />num_claims:   9","year_month: 2009-04-01<br />num_claims:  14","year_month: 2009-05-01<br />num_claims:   3","year_month: 2009-07-01<br />num_claims:   4","year_month: 2009-09-01<br />num_claims:   9","year_month: 2009-10-01<br />num_claims:  12","year_month: 2009-11-01<br />num_claims:   4","year_month: 2009-12-01<br />num_claims:   3"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826491,"l":43.105022831050235},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Number of Claims per Month","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1239161760,1748291040],"tickmode":"array","ticktext":["2010","2015","2020","2025"],"tickvals":[1262304000,1420070400,1577836800,1735689600],"categoryorder":"array","categoryarray":["2010","2015","2020","2025"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Month","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-6.8500000000000005,165.84999999999999],"tickmode":"array","ticktext":["0","50","100","150"],"tickvals":[0,50.000000000000007,100.00000000000001,150],"categoryorder":"array","categoryarray":["0","50","100","150"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of Claims","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"77d24115ac6":{"x":{},"y":{},"type":"scatter"}},"cur_data":"77d24115ac6","visdat":{"77d24115ac6":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
